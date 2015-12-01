@@ -1,0 +1,4 @@
+*.project
+*.pydevproject
+src/temp.py
+src/test.py
