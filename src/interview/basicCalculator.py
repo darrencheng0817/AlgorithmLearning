@@ -13,3 +13,35 @@ Some examples:
 https://leetcode.com/problems/basic-calculator/
 @author: Darren
 '''
+def calculate(string):
+    if not string:
+        return 0
+    sign,res,num=1,0,0
+    resStack=[]
+    for char in string:
+        if char.isdigit():
+            num=num*10+int(char)
+        elif char=="+":
+            res+=num*sign
+            num=0
+            sign=1
+        elif char=="-":
+            res+=num*sign
+            num=0
+            sign=-1
+        elif char=="(":
+            resStack.append(res)
+            resStack.append(sign)
+            res=0
+            sign=1
+        elif char==")":
+            res+=num*sign
+            res*=resStack.pop()
+            res+=resStack.pop()
+            num=0
+            sign=1
+    if num!=0:
+        res+=num*sign
+    return res
+
+print(calculate("(1+(4+5+2)-3)+(6+83)"))

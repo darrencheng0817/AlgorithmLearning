@@ -13,3 +13,34 @@ Some examples:
 https://leetcode.com/problems/basic-calculator-ii/
 @author: Darren
 '''
+
+def calculate(string):
+    if not string:
+        return 0
+    res, num = 0, 0
+    resStack = []
+    sign = "+"
+    index = 0
+    while index < len(string):
+        if string[index] in ["+", "-", "/", "*"]:
+            sign = string[index]
+            index += 1
+        tempIndex = index
+        while index < len(string) and (string[index].isdigit()or string[index] == " "):
+            index += 1
+        num = int(string[tempIndex:index].strip())
+        if sign == "+":
+            resStack.append(num)
+        elif sign == "-":
+            resStack.append(-num)
+        elif sign == "*":
+            tempNum = resStack.pop()
+            resStack.append(tempNum * num)
+        elif sign == "/":
+            temNum = resStack.pop()
+            resStack.append(tempNum / num)
+    for num in resStack:
+        res += num
+    return res
+
+print(calculate("0- 20+89"))
