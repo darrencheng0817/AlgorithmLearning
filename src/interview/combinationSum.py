@@ -16,3 +16,27 @@ https://leetcode.com/problems/combination-sum/
 
 @author: Darren
 '''
+
+def combinationSum(nums,target):
+    '''
+    :type: nums:list[int] target:int
+    :rtype: list[list[int]]
+    '''
+    nums=sorted(nums)
+    res=[]
+    combinationSumUtil(nums, target, res, [], 0)
+    return res
+    
+def combinationSumUtil(nums,target,res,item,index):
+    if target<0:
+        return
+    if target==0:
+        res.append(item)
+        return
+    for i in range(index,len(nums)):
+        if i>index and nums[i]==nums[i-1]:
+            continue
+        combinationSumUtil(nums, target-nums[i], res, item+[nums[i]], i+1)
+
+
+print(combinationSum([1,4,2,3], 5))
