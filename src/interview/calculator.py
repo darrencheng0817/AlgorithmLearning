@@ -87,4 +87,4 @@ def evaluate(string):
         values.append(applyOp(ops.pop(),values.pop(),values.pop()))
     return values.pop()
 
-print(evaluate("(3+4)*6/2"))
+print(evaluate("0- (3+4)*6/2"))

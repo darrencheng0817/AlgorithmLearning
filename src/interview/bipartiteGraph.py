@@ -46,3 +46,35 @@ Created on 2015年12月1日
 
 @author: Darren
 '''
+
+from models.Graph import *
+def isBipartiteGraph(g):
+    if not g:
+        return False
+    setA,setB=set(),set()
+    queue=list(g.Nodes)
+    while queue:
+        node=queue.pop(0)
+        if node not in setB:
+            setA.add(node)
+            for nodeNeighbor in node.neighbor:
+                if nodeNeighbor in setA:
+                    return False
+                else:
+                    setB.add(nodeNeighbor)
+        else:
+            for nodeNeighbor in node.neighbor:
+                if nodeNeighbor in setB:
+                    return False
+                else:
+                    setA.add(nodeNeighbor)
+    return True
+
+nodeA=GraphNode()
+nodeB=GraphNode()
+nodeC=GraphNode()
+g=Graph()
+g.addEdge(nodeA, nodeB)
+g.addEdge(nodeA, nodeC)
+g.addEdge(nodeB, nodeC)
+print(isBipartiteGraph(g))
