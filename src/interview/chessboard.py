@@ -27,6 +27,26 @@ def numOfWays(starti,startj,endi,endj,k):
     return queue.count((endi,endj))
 
 def numOfWays2(starti,startj,endi,endj,k):
+    chessboard=[[0]*8 for i in range(8)]
+    stack=[(starti,startj,0)]
+    res=0
+    while stack:
+        pointi,pointj,level=stack.pop()
+        if level==k:
+            if pointi==endi and pointj==endj:
+                res+=1
+            continue
+        if pointi+1<8:
+            stack.append((pointi+1,pointj,level+1))
+        if pointi-1>=0:
+            stack.append((pointi-1,pointj,level+1))
+        if pointj+1<8:
+            stack.append((pointi,pointj+1,level+1))
+        if pointj-1>=0:
+            stack.append((pointi,pointj-1,level+1))
+    return res
+
+def numOfWays3(starti,startj,endi,endj,k):
     chessboard=[[0]*10 for i in range(10)]
     chessboard[starti+1][startj+1]=1
     for step in range(k):
@@ -41,12 +61,17 @@ def numOfWays2(starti,startj,endi,endj,k):
 
 print(numOfWays(3,4,3,5,9))
 print(numOfWays2(3,4,3,5,9))
+print(numOfWays3(3,4,3,5,9))
 def mytest1():
     numOfWays(3,4,3,5,9)
 def mytest2():
-   numOfWays2(3,4,3,5,9)
+    numOfWays2(3,4,3,5,9)
+def mytest3():
+    numOfWays3(3,4,3,5,9)
 t1=Timer('mytest1()', 'from __main__ import mytest1')
 t2=Timer('mytest2()', 'from __main__ import mytest2')
+t3=Timer('mytest3()', 'from __main__ import mytest3')
 
 print(t1.timeit(10))
 print(t2.timeit(10))
+print(t3.timeit(10))
