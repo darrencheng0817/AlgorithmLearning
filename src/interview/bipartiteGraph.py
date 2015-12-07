@@ -46,8 +46,8 @@ Created on 2015年12月1日
 
 @author: Darren
 '''
+from models.Graph import *
 
-from src.models.Graph import *
 def isBipartiteGraph(g):
     if not g:
         return False

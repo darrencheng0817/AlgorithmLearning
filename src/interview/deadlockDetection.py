@@ -27,31 +27,37 @@ Example:
 3 0 2
 Output:
 3
-
 @author: Darren
 '''
-def check(requests,thread_id,target_id):
-    if target_id in requests and thread_id in requests[target_id]:
-        return False
+def check(requests, thread_id, target_id):
+    if target_id not in requests:
+        return True
+    queue = [target_id]
+    while queue:
+        thread = queue.pop(0)
+        if thread in requests :
+            if thread_id in requests[thread]:
+                return False
+            queue += requests[thread]
     return True
 
 def detector():
-    N=int(input())
-    requests={}
+    N = int(input())
+    requests = {}
     for caseNum in range(N):
-        case=[int(temp) for temp in input().strip().split(" ")]
-        thread_id=case[0]
-        target_id=case[2]
-        if case[1]==0:
-            if not check(requests,thread_id,target_id):
-                return caseNum+1
+        case = [int(temp) for temp in input().strip().split(" ")]
+        thread_id = case[0]
+        target_id = case[2]
+        if case[1] == 0:
+            if not check(requests, thread_id, target_id):
+                return caseNum + 1
             if thread_id in requests:
                 requests[thread_id].add(target_id)
             else:
-                requests[thread_id]=set([target_id])
-            if target_id in requests:
-                requests[thread_id]|=requests[target_id]
-        elif case[1]==1:
+                requests[thread_id] = set([target_id])
+        elif case[1] == 1:
             requests[thread_id].remove(target_id)
+            if not requests[thread_id]:
+                requests.pop(thread_id)
     return 0
 print(detector())

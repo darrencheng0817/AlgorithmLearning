@@ -3,7 +3,7 @@ Created on 2015年12月3日
 
 @author: Darren
 '''
-class BSTNode(object):
+class BTNode(object):
     def __init__(self,value):
         self.left=None
         self.right=None
@@ -31,7 +31,7 @@ def buildTreeUtil(preOrder,index):
     if not preOrder or len(preOrder)<=index[0] or preOrder[index[0]]=="#":
         index[0]+=1
         return None
-    root=BSTNode(preOrder[index[0]])
+    root=BTNode(preOrder[index[0]])
     index[0]+=1
     root.left=buildTreeUtil(preOrder, index)
     root.right=buildTreeUtil(preOrder, index)
