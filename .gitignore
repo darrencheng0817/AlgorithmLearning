@@ -1,5 +1,5 @@
 *.project
 *.pydevproject
-src/temp.py
-src/test.py
+*temp.py
+*test.py
 *__pycache__*
