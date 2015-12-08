@@ -87,4 +87,29 @@ def evaluate(string):
         values.append(applyOp(ops.pop(),values.pop(),values.pop()))
     return values.pop()
 
+def simpleCal(string):
+    if not string:
+        return 0
+    index=0
+    numStack=[]
+    signStack=[]
+    while index<len(string):
+        char=string[index]
+        if char.isdigit():
+            startIndex=index
+            while index<len(string) and string[index].isdigit():
+                index+=1
+            num=int(string[startIndex:index])
+            numStack.append(num)
+        elif char in ["+","-","*","/"]:
+            while signStack and hasPrecedence(char, signStack[-1]):
+                numStack.append(applyOp(signStack.pop(), numStack.pop(), numStack.pop()))
+            signStack.append(char)
+            index+=1
+        else:
+            index+=1
+    while signStack:
+        numStack.append(applyOp(signStack.pop(), numStack.pop(), numStack.pop()))
+    return numStack.pop()
 print(evaluate("0- (3+4)*6/2"))
+print(simpleCal("4+5*6+3"))
