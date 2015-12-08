@@ -27,4 +27,19 @@ int[] searchXandY(int n) {
         }
 @author: Darren
 '''
+from math import sqrt
+def findMinDistancePair(num):
+    cand1=int(sqrt(num+2))
+    cand2=int(sqrt(num+2))
+    while True:
+        if cand1*cand2>=num and cand1*cand2<=num+2:
+            return (cand1,cand2)
+        elif cand1*cand2<num:
+            cand1+=1
+        else:
+            cand2-=1
 
+print(findMinDistancePair(25))
+nums=[25,24,21,23,20]
+for num in nums:
+    print(findMinDistancePair(num))

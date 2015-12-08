@@ -32,6 +32,6 @@ def maxValue2(nums):
             dp[i]=max(dp[i],temp*(nums[i-2]+nums[i-1]+nums[i]))
     return dp[-1]
 
-nums=[1,2]
+nums=[1,1,1,1,1,1,1,1,1]
 print(maxValue(nums))
 print(maxValue2(nums))
