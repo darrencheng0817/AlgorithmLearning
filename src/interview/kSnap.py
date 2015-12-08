@@ -49,7 +49,7 @@ public boolean  isSnapPoint(Point p, int k) {
                 points.add(point);
                 Point left = new Point(point.x - 1, point.y);
                 if (!points.contains(left)) helper(left, k, points);
-                Point right = new Point(point.x + 1, point.y);. more info on 1point3acres.com
+                Point right = new Point(point.x + 1, point.y);
                 if (!points.contains(right)) helper(right, k, points);
                 Point upper = new Point(point.x, point.y + 1);
                 if (!points.contains(upper)) helper(upper, k, points);
@@ -78,3 +78,48 @@ public boolean  isSnapPoint(Point p, int k) {
         }
 @author: Darren
 '''
+
+def isKSnap(grid,i,j,k):
+    x,y=grid[i][j]
+    x,y=abs(x),abs(y)
+    res=0
+    while x>0:
+        res+=x%10
+        x//=10
+    while y>0:
+        res+=y%10
+        y//=10
+    if res<=k:
+        return True
+    return False
+
+def reachableKSnap(grid,k):
+    stack=[(0,0)]
+    visited=set()
+    res=[]
+    while stack:
+        i,j=stack.pop()
+        if isKSnap(grid, i, j, k):
+            res.append((i,j))
+            visited.add((i,j))
+            if i-1>0 and (i-1,j) not in visited:
+                stack.append((i-1,j))
+            if i+1<len(grid) and (i+1,j) not in visited:
+                stack.append((i+1,j))
+            if j-1>0 and (i,j-1) not in visited:
+                stack.append((i,j-1))
+            if j+1<len(grid[0]) and (i,j+1) not in visited:
+                stack.append((i,j+1))
+    return res            
+                
+                
+    
+grid =[[(-1, 1), (-1, 2), (0, 2), (1, 2), (2, 2)],
+       [(-2, 1), (-1, 1), (0, 1), (1, 1), (2, 1)],
+       [(-2, 0), (-1, 0), (0, 0), (1, 0), (2, 0)],
+       [(-2, -1), (-1, -1), (0, -1), (1, -1), (2, -1)],
+       [(-2, -2), (-1, -2), (0, -2), (1, -2), (2, -2)]]
+
+
+print(isKSnap(grid, 0, 0, 2))
+print(reachableKSnap(grid, 3))
