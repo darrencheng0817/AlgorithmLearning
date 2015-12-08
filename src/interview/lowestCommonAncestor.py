@@ -4,8 +4,7 @@ https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
 @author: Darren
 '''
 
-from models.BSTNode import *
-from tkinter.constants import LEFT
+from src.models.BTNode import *
 
 def findLCA(root,node1,node2):
     if not root:
@@ -21,13 +20,13 @@ def findLCA(root,node1,node2):
     else: 
         return right
 
-root=BSTNode(4)
-root.left=BSTNode(2)
-root.right=BSTNode(6)
-root.left.left=BSTNode(1)
-root.left.right=BSTNode(3)
-root.right.left=BSTNode(5)
-root.right.right=BSTNode(7)
+root=BTNode(4)
+root.left=BTNode(2)
+root.right=BTNode(6)
+root.left.left=BTNode(1)
+root.left.right=BTNode(3)
+root.right.left=BTNode(5)
+root.right.right=BTNode(7)
 
 printTreeLevelOrder(root)
 print(findLCA(root, root.left.left, root.left.right))
