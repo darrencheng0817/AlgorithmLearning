@@ -76,8 +76,6 @@ return (cap -1) & result;
 }
 '''
 # _*_coding:utf_8_
-import os
-import sys
 
 class SimpleHash():  
     

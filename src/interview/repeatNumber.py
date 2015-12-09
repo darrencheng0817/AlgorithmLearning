@@ -7,3 +7,23 @@ Created on 2015年12月1日
 继续followup：如果说没有空间怎么办？
 @author: Darren
 '''
+
+
+def findDup(nums):
+    if not nums:
+        raise Exception("Invalid input!")
+    slowP=nums[0]
+    fastP=nums[0]
+    while True:
+        fastP=nums[nums[fastP]]
+        slowP=nums[slowP]
+        if fastP==slowP:
+            break
+    fastP=nums[0]
+    while fastP!=slowP:
+        fastP=nums[fastP]
+        slowP=nums[slowP]
+    return nums[slowP]
+
+nums=[1,2,3,4,5,5,6,7,8]
+print(findDup(nums))
