@@ -23,7 +23,7 @@ class Solution(object):
             return
         right=root.right
         if not self.pre:
-           self.pre=root
+            self.pre=root
         else:
             self.pre.left=None
             self.pre.right=root
