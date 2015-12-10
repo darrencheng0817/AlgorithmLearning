@@ -40,4 +40,4 @@ def printAmicableNumber2(maxRange):
     for i in range(2,maxRange):
         if divSum[i]<maxRange and divSum[divSum[i]]==i and i<divSum[i]:
             print(str(i)+" "+str(divSum[i]))
-printAmicableNumber2(100000)
+printAmicableNumber2(1000000)
