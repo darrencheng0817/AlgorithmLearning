@@ -11,6 +11,7 @@ def mergeSort(nums):
         return nums
     m=len(nums)//2
     return merge(mergeSort(nums[:m]),mergeSort(nums[m:]))
+
 def merge(nums1,nums2):
     index1,index2=0,0
     res=[]
