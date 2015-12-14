@@ -13,12 +13,22 @@ class BTNode(object):
 
 class Solution(object):
     def __init__(self):
-        pass
+        self.pre=None
     def flatten(self, root):
         """
         :type root: TreeNode
         :rtype: void Do not return anything, modify root in-place instead.
         """
-        pass
+        if not root:
+            return
+        rightNode=root.right
+        if not self.pre:
+            self.pre=root
+        else:
+            self.pre.left=None
+            self.pre.right=root
+            self.pre=root
+        self.flatten(root.left)
+        self.flatten(rightNode)
 
 

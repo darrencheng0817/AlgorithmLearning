@@ -8,15 +8,13 @@ class GraphNode(object):
     '''
     classdocs
     '''
-    
-
-
     def __init__(self,value=None):
         '''
         Constructor
         '''
         self.value=value
         self.neighbor=set()
+    
     
 class Graph(object):
     

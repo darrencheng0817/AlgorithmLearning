@@ -7,5 +7,13 @@ Created on 2015年12月1日
 '''
 
 def printAmicableNumber(maxRange):
-    pass
+    dp=[1]*maxRange
+    for i in range(2,maxRange):
+        k=i+i
+        while k<maxRange:
+            dp[k]+=i
+            k+=i
+    for i in range(2,maxRange):
+        if dp[i]<maxRange and dp[dp[i]]==i and i<dp[i]:
+            print(str(i)+" "+str(dp[i]))
 printAmicableNumber(1000000)

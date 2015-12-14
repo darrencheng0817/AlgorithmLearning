@@ -46,16 +46,30 @@ Created on 2015年12月1日
 
 @author: Darren
 '''
-
+from Python.models.Graph import *
 
 def isBipartiteGraph(g):
-    pass
-
+    sA=set()
+    sB=set()
+    for node in g.Nodes:
+        if node not in sB:
+            sA.add(node)
+            if sA&node.neighbor:
+                return False
+            else:
+                sB|=node.neighbor
+        else:
+            sB.add(node)
+            if sB&node.neighbor:
+                return False
+            else:
+                sA|=node.neighbor
+    return True
 nodeA=GraphNode()
 nodeB=GraphNode()
 nodeC=GraphNode()
 g=Graph()
 g.addEdge(nodeA, nodeB)
 g.addEdge(nodeA, nodeC)
-g.addEdge(nodeB, nodeC)
+# g.addEdge(nodeB, nodeC)
 print(isBipartiteGraph(g))

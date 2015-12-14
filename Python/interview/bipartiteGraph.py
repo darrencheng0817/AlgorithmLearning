@@ -46,7 +46,7 @@ Created on 2015年12月1日
 
 @author: Darren
 '''
-from models.Graph import *
+from Python.models.Graph import *
 
 def isBipartiteGraph(g):
     if not g:
@@ -76,5 +76,5 @@ nodeC=GraphNode()
 g=Graph()
 g.addEdge(nodeA, nodeB)
 g.addEdge(nodeA, nodeC)
-g.addEdge(nodeB, nodeC)
+# g.addEdge(nodeB, nodeC)
 print(isBipartiteGraph(g))

@@ -75,4 +75,45 @@ return (cap -1) & result;
 }
 }
 '''
+class simpleHash(object):
+    def __init__(self,capacity,seed):
+        self.capacity=capacity
+        self.seed=seed
+    def hashFunc(self,string):
+        res=0
+        for char in string:
+            res+=res*self.seed+ord(char)
+        return res&(self.capacity-1)
+class BloomFilter(object):
+    def __init__(self,capacity=1<<25,seeds=[5,7,11,13,31,37,61]):
+        self.capacity=capacity
+        self.seeds=seeds
+        self.hashFuncs=[simpleHash(capacity,seed) for seed in seeds]
+        self.bitSet=[False]*capacity
+        
+    def insert(self,string):
+        if not string:
+            return
+        if self.contains(string):
+            print("String '%s' exist"%string)
+            return 
+        for hashFunc in self.hashFuncs:
+            hashValue=hashFunc.hashFunc(string)
+            self.bitSet[hashValue]=True
+    
+    def contains(self,string):
+        if not string:
+            return False
+        for hashFunc in self.hashFuncs:
+            hashValue=hashFunc.hashFunc(string)
+            if not self.bitSet[hashValue]:
+                return False
+        return True
 
+bloomFilter=BloomFilter()
+while True:
+    string=input()
+    if string=="exit":
+        break
+    else:
+        bloomFilter.insert(string)
