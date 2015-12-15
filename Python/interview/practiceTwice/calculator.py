@@ -31,7 +31,54 @@ Created on 2015年12月1日
    stack should have only one value in it, which is the final result.
 @author: Darren
 '''
+def applyOp(op,num1,num2):
+    if op=="+":
+        return num1+num2
+    if op=="-":
+        return num2-num1
+    if op=="*":
+        return num1*num2
+    if op=="/":
+        return num2//num1
+
+def hasPrecedence(op1,op2):
+    if op1=="(" or op1==")":
+        return False
+    if op2 in ["*","/"] and op1 in ["+","-"]:
+        return False
+    return True
+
 
 def evaluate(string):
-    pass
+    if not string:
+        return 0
+    index=0
+    valueStack=[]
+    operationStack=[]
+    while index<len(string):
+        char=string[index]
+        if char==" ":
+            index+=1
+            continue
+        if char.isdigit():
+            startIndex=index
+            while index<len(string) and string[index].isdigit():
+                index+=1
+            valueStack.append(int(string[startIndex:index]))
+        elif char=="(":
+            operationStack.append(char)
+            index+=1
+        elif char==")":
+            while operationStack[-1]!="(":
+                valueStack.append(applyOp(operationStack.pop(),valueStack.pop(),valueStack.pop()))
+            operationStack.pop()
+            index+=1
+        elif char in ["+","-","*","/"]:
+            while operationStack and hasPrecedence(operationStack[-1],char):
+                valueStack.append(applyOp(operationStack.pop(),valueStack.pop(),valueStack.pop()))
+            operationStack.append(char)
+            index+=1
+    while operationStack:
+        valueStack.append(applyOp(operationStack.pop(),valueStack.pop(),valueStack.pop()))
+    return valueStack.pop()
 print(evaluate("0- (3+4)*6/2"))

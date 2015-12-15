@@ -14,10 +14,27 @@ Note: The opponent is as clever as the user.
 class BestStrategy(object):
     
     def bestStrategy(self,nums):
-        pass
-    
+        if not nums:
+            return 0
+        choseFirst=nums[0]+min(self.bestStrategy(nums[1:-1]),self.bestStrategy(nums[2:]))
+        choseLast=nums[-1]+min(self.bestStrategy(nums[:-2]),self.bestStrategy(nums[1:-1]))
+        return max(choseLast,choseFirst)                      
     def vsGreddyOp(self,nums):
-        pass
+        if not nums:
+            return 0
+        if len(nums)==1:
+            return nums[0]
+        choseFirst=nums[0]
+        if nums[1]>=nums[-1]:
+            choseFirst+=self.vsGreddyOp(nums[2:])
+        else:
+            choseFirst+=self.vsGreddyOp(nums[1:-1])
+        choseLast=nums[-1]
+        if nums[0]>=nums[-2]:
+            choseLast+=self.vsGreddyOp(nums[1:-1])
+        else:
+            choseLast+=self.vsGreddyOp(nums[:-2])
+        return max(choseLast,choseFirst)   
 nums=[8, 15, 3, 7,5]
 so=BestStrategy()
 print(so.bestStrategy(nums))

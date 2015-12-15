@@ -4,8 +4,39 @@ Created on 2015年12月1日
 @author: Darren
 '''
 def findAnagram(a,b):
-    pass
-        
-a="ajdhgkajhg"
+    diff={}
+    for char in a:
+        if char not in diff:
+            diff[char]=0
+        diff[char]+=1
+    index=0
+    while index<len(a)-1:
+        char=b[index]
+        if char not in diff:
+            diff[char]=0
+        diff[char]-=1
+        if diff[char]==0:
+            diff.pop(char)
+        index+=1
+    res=[]
+    while index<len(b):
+        char=b[index]
+        if char not in diff:
+            diff[char]=0
+        diff[char]-=1
+        if diff[char]==0:
+            diff.pop(char)
+        index+=1
+        startIndex=index-len(a)
+        if len(diff)==0:
+            res.append(startIndex)
+        char=b[startIndex]
+        if char not in diff:
+            diff[char]=0
+        diff[char]+=1
+        if diff[char]==0:
+            diff.pop(char)
+    return res
+a="ajdhgkajhgkd"
 b="hdkg"
-print(findAnagram(a, b))
+print(findAnagram(b, a))

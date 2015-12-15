@@ -30,7 +30,37 @@ Output:
 @author: Darren
 '''
 
+def isDeadLock(requests,thread_id,request_id):
+    if request_id not in requests:
+        return False
+    queue=[request_id]
+    while queue:
+        curThread=queue.pop()
+        if curThread in requests:
+            if thread_id in requests[curThread]:
+                return True
+            queue+=list(requests[curThread])
+    return False
 
 def detector():
-    pass
+    N=int(input())
+    requests={}
+    for caseNum in range(N):
+        inputString=input().strip().split(" ")
+        thread_id=inputString[0]
+        type=inputString[1]
+        request_id=inputString[2]
+        if thread_id==request_id:
+            continue
+        if type=="0":
+            if isDeadLock(requests,thread_id,request_id):
+                return caseNum+1
+            if thread_id not in requests:
+                requests[thread_id]=set()
+            requests[thread_id].add(request_id)
+        elif type=="1":
+            requests[thread_id].remove(request_id)
+            if not requests[thread_id]:
+                requests.pop(thread_id)
+    return -1
 print(detector())

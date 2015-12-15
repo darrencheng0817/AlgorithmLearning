@@ -1,6 +1,7 @@
 '''
 Created on 2015年12月12日
 Implementation of segmentTree, this demo is used to query the sum of a range 
+refer http://blog.csdn.net/metalseed/article/details/8039326
 @author: Darren
 '''
 class SegmentTreeNode(object):

@@ -22,7 +22,17 @@ def combinationSum(nums,target):
     :type: nums:list[int] target:int
     :rtype: list[list[int]]
     '''
-    pass
+    res=[]
+    combinationSumUtil(nums, target, res, [], 0)
+    return res
 
-
-print(combinationSum([1,4,2,3], 5))
+def combinationSumUtil(nums,target,res,item,index):
+    if target==0:
+        res.append(item)
+        return
+    if index>=len(nums) or target<0:
+        return 
+    for i in range(index,len(nums)):
+        combinationSumUtil(nums, target-nums[i], res, item+[nums[i]], i+1)
+        
+print(combinationSum([1,4,2,3], 6))

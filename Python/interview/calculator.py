@@ -40,7 +40,7 @@ def applyOp(op,a,b):
     if op=="+":
         return a+b
     elif op=="-":
-        return a-b
+        return b-a
     elif op=="*":
         return a*b
     elif op=="/":
