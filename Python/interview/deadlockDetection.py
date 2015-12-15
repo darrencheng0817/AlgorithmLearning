@@ -48,6 +48,8 @@ def detector():
         case = [int(temp) for temp in input().strip().split(" ")]
         thread_id = case[0]
         target_id = case[2]
+        if thread_id==target_id:
+            continue
         if case[1] == 0:
             if not check(requests, thread_id, target_id):
                 return caseNum + 1
