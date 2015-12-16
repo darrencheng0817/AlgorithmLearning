@@ -17,6 +17,7 @@ def wordLadder(startWord,endWord,wordDic,path,visited):
                 res=wordLadder(newWord, endWord, wordDic, path+[newWord],visited)
                 if res:
                     return res
+                visited.remove(newWord)
     return None
 def wordLadder2(startWord,endWord,wordDic,path,visited,res):
     for index in range(len(startWord)):

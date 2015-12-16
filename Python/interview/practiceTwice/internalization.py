@@ -91,13 +91,51 @@ public class test {
     }
 }
 '''
+class TrieNode(object):
+    def __init__(self,value=""):
+        self.value=value
+        self.count=0
+        self.isEnd=False
+        self.children={}
 
     
-def getCompressWords(root,res,path):
-    pass
-        
-input=["internet", "intranet", "modern", "great","intertet"]
+def getSuffix(root):
+    res=""
+    while True:
+        for key in root.children.keys():
+            root=root.children[key]
+        res+=root.value
+        if root.isEnd:
+            break
+    return res
+def getCompressedWords(root,res,path):
+    if root.isEnd:
+        res.append(path+root.value)
+    if root.count==1:
+        suffix=getSuffix(root)
+        if len(suffix)<=2:
+            compressedWord=path+root.value+suffix
+        else:
+            compressedWord=path+root.value+str(len(path)+len(suffix)+1)+suffix[-1]
+        res.append(compressedWord)
+        return 
+    for key in root.children.keys():
+        getCompressedWords(root.children[key], res, path+root.value)
+
+def buildTrie(input):
+    root=TrieNode()
+    for word in input:
+        pointer=root
+        for char in word:
+            if char not in pointer.children:
+                pointer.children[char]=TrieNode(char)
+            pointer.count+=1
+            pointer=pointer.children[char]
+        pointer.isEnd=True
+    return root
+
+input=["internet", "intranet", "modern", "great","intertet","a","ab","abcd","abcc"]
 root=buildTrie(input)
 res=[]
-getCompressWords(root, res, "")
+getCompressedWords(root, res, "")
 print(res)  

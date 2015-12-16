@@ -53,6 +53,7 @@ def updateItemsSold(root):
         for subordinate in root.Subordinates:
             root.itemsSold+=updateItemsSold(subordinate)
     return root.itemsSold
+
 def buildGraph(ceo,employees,items):
     root=Employee(ceo,items[ceo])
     queue=[root]

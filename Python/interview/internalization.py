@@ -107,26 +107,28 @@ def buildTrie(strings):
         for char in string:
             if char not in pointer.children:
                 pointer.children[char]=TrieNode()
-            pointer=pointer.children[char]
             pointer.words+=1
+            pointer=pointer.children[char]
             pointer.val=char
         pointer.isWord=True
     return root
 
-def getsuffix(root):
+def getSuffix(root):
     res=""
-    while not root.isWord:
+    while True:
         for key in root.children.keys():
             root=root.children[key]
         res+=root.val
+        if root.isWord:
+            break
     return res
     
 def getCompressWords(root,res,path):
     if root.isWord:
-        res.append(path)
+        res.append(path+root.val)
     if root.words==1:
         path+=root.val
-        suffix=getsuffix(root)
+        suffix=getSuffix(root)
         if len(suffix)<=2:
             res.append(path+suffix)
         else:
@@ -135,7 +137,7 @@ def getCompressWords(root,res,path):
         for key in root.children.keys():
             getCompressWords(root.children[key], res, path+root.val)
         
-input=["internet", "intranet", "modern", "great","intertet"]
+input=["internet", "intranet", "modern", "great","intertet","a","ab"]
 root=buildTrie(input)
 res=[]
 getCompressWords(root, res, "")
