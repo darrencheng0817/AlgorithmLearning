@@ -3,8 +3,8 @@ Created on 2015年12月1日
 https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/
 @author: Darren
 '''
-import models
-from models.BTNode import *
+
+from Python.models.BTNode import *
 
 def findLCA(root,node1,node2):
     if not root:

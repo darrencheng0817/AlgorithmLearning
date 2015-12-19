@@ -92,53 +92,76 @@ public class test {
 }
 '''
 
+
+
 class TrieNode(object):
-    def __init__(self):
-        self.isWord=False
-        self.words=0
-        self.val=""
+    def __init__(self,value=""):
+        self.isEnd=False
         self.children={}
-        
-        
-def buildTrie(strings):
+        self.value=value
+        self.count=0
+
+def buildTree(strings):
     root=TrieNode()
     for string in strings:
         pointer=root
         for char in string:
             if char not in pointer.children:
-                pointer.children[char]=TrieNode()
-            pointer.words+=1
+                pointer.children[char]=TrieNode(char)
+            pointer.count+=1
             pointer=pointer.children[char]
-            pointer.val=char
-        pointer.isWord=True
+        pointer.isEnd=True
     return root
+
+def preProcess(res,strings):
+    dic={}
+    conflicts=[]
+    for string in strings:
+        if len(string)<=3:
+            res.append(string)
+        else:
+            compressedWord=string[0]+str(len(string))+string[-1]
+            if compressedWord not in dic:
+                dic[compressedWord]=[]
+            dic[compressedWord].append(string)
+    for key in dic.keys():
+        if len(dic[key])==1:
+            res.append(key)
+        else:
+            conflicts+=dic[key]
+    return conflicts
+        
+def getCompressedWords(strings):
+    res=[]
+    conflicts=preProcess(res,strings)
+    root=buildTree(conflicts)
+    getCompressedWordsUtil(root, res, "")
+    return res
 
 def getSuffix(root):
     res=""
+    pointer=root
     while True:
-        for key in root.children.keys():
-            root=root.children[key]
-        res+=root.val
-        if root.isWord:
+        for key in pointer.children.keys():
+            pointer=pointer.children[key]
+        res+=pointer.value
+        if pointer.isEnd:
             break
     return res
-    
-def getCompressWords(root,res,path):
-    if root.isWord:
-        res.append(path+root.val)
-    if root.words==1:
-        path+=root.val
+        
+def getCompressedWordsUtil(root,res,path):
+    if root.isEnd:
+        res.append(path+root.value)
+    if root.count==1:
         suffix=getSuffix(root)
         if len(suffix)<=2:
-            res.append(path+suffix)
+            res.append(path+root.value+suffix) 
         else:
-            res.append(path+str(len(suffix)+len(path))+suffix[-1])
-    else:
-        for key in root.children.keys():
-            getCompressWords(root.children[key], res, path+root.val)
-        
-input=["internet", "intranet", "modern", "great","intertet","a","ab"]
-root=buildTrie(input)
-res=[]
-getCompressWords(root, res, "")
-print(res)  
+            res.append(path+root.value+str(len(path)+len(suffix)+1)+suffix[-1])
+        return
+    for key in root.children.keys():
+        getCompressedWordsUtil(root.children[key], res, path+root.value)
+    
+    
+strings=["internet","interest","intranet","a","ab","abc","abcd"]
+print(getCompressedWords(strings))

@@ -3,7 +3,7 @@ Created on 2015年12月1日
 
 @author: Darren
 '''
-from models.BTNode import BTNode
+from Python.models.BTNode import BTNode
 
 class BST(object):
     def __init__(self):
