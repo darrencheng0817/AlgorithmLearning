@@ -64,7 +64,6 @@ class Solution(object):
                         if count==0:
                             level+=1
                             count=len(queue)
-                    print(dp)
         res=len(grid)*len(grid[0])*len(grid)*len(grid[0])
         for i in range(len(dp)):
             for j in range(len(dp[0])):
