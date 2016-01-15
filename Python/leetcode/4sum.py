@@ -5,9 +5,6 @@ Created on 2015年12月1日
 '''
 
 
-
-
-
 class pair(object):
     def __init__(self,indexA,indexB,sum):
         self.indexA=indexA
