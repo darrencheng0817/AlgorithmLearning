@@ -4,7 +4,7 @@ Created on 2016年1月18日
 @author: Darren
 '''
 # Complete the function below.
-
+from math import ceil,floor
 
 def  rpn_calculate(tokens):
     if not tokens or len(tokens)<1:
@@ -52,3 +52,5 @@ def  rpn_calculate(tokens):
 
 tokens=["-3","5","/"]
 rpn_calculate(tokens)
+s=set([1,2,3])
+print(floor(-4.6))
