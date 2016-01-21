@@ -4,7 +4,6 @@ Created on 2016年1月18日
 @author: Darren
 '''
 # Complete the function below.
-from math import ceil,floor
 
 def  rpn_calculate(tokens):
     if not tokens or len(tokens)<1:
@@ -15,7 +14,7 @@ def  rpn_calculate(tokens):
         if token.isdigit(): # isdigit() will return False for negative number like "-1"
             stack.append(int(token))
         elif len(token)>1 and token[0]=="-" and token[1:].isdigit():# for the negative number
-            stack.append(-1*int(token))
+            stack.append(int(token))
         elif token in ["-","+","*","/"]:
             if not stack or len(stack)<2:
                 print("Invalid input")
@@ -35,7 +34,7 @@ def  rpn_calculate(tokens):
                 if num1==0:
                     stack.append(0)
                 elif num1*num2<0:
-                    stack.append((abs(num1)//abs(num2))*-1) # in python -3//-5 is -1 so need to be handled 
+                    stack.append((abs(num1)//abs(num2))*(-1)) # in python -3//-5 is -1 so need to be handled 
                 else:
                     stack.append(num1//num2)
         else:
@@ -50,7 +49,5 @@ def  rpn_calculate(tokens):
             
 
 
-tokens=["-3","5","/"]
+tokens=["18","-5","/"]
 rpn_calculate(tokens)
-s=set([1,2,3])
-print(floor(-4.6))
