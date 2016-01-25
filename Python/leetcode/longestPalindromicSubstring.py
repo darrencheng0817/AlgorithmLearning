@@ -66,4 +66,13 @@ s="lphbehiapswjudnbcossedgioawodnwdruaaxhbkwrxyzaxygmnjgwysafuqbmtzwdkihbwkrjefr
 print(longestPalindrome(s))
 print(longestPalindrome2(s))
 print(longestPalindrome3(s))
-# print(Timer('longestPalindrome2()','from __main__ import longestPalindrome2').timeit(1))print(Timer('longestPalindrome()','from __main__ import longestPalindrome').timeit(1))
+
+def test():
+    longestPalindrome(s)
+def test2():
+    longestPalindrome2(s)
+def test3():
+    longestPalindrome3(s)    
+print(Timer('test()','from __main__ import test').timeit(1))
+print(Timer('test2()','from __main__ import test2').timeit(1))
+print(Timer('test3()','from __main__ import test3').timeit(1))

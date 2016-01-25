@@ -20,6 +20,7 @@ You may assume that you have an infinite number of each kind of coin.
 
 
 '''
+from timeit import Timer
 class Solution(object):
     def coinChange(self, coins, amount):
         """
@@ -45,12 +46,13 @@ class Solution(object):
         """
         level=0
         queue=[amount]
+        coins=sorted(coins,reverse=True)
         visited=set()
         while queue:
             level+=1
             newqueue=[]
             while queue:
-                value=queue.pop(0)
+                value=queue.pop()
                 if value in visited:
                     continue
                 else:
@@ -64,6 +66,16 @@ class Solution(object):
             queue=newqueue
         return -1
 so=Solution()
-print(so.coinChange([413,213,453,20,150,321,254,396,487,234], 5629))
-print(so.coinChange2([413,213,453,20,150,321,254,396,487,234], 5629))
+print(so.coinChange([1,2,3,4,5,6,7,8,9,11,23,45,65,413,213,453,20,150,321,254,396,487,234], 5629))
+print(so.coinChange2([1,2,3,4,5,6,7,8,9,11,23,45,65,413,213,453,20,150,321,254,396,487,234], 5629))
 
+def mytest1():
+    so.coinChange([1,2,3,4,5,6,7,8,9,11,23,45,65,413,213,453,20,150,321,254,396,487,234,543,654], 56292)
+def mytest2():
+    so.coinChange2([1,2,3,4,5,6,7,8,9,11,23,45,65,413,213,453,20,150,321,254,396,487,234,543,654], 56292)
+
+t1=Timer('mytest1()', 'from __main__ import mytest1')
+t2=Timer('mytest2()', 'from __main__ import mytest2')
+
+print(t1.timeit(10))
+print(t2.timeit(10))
