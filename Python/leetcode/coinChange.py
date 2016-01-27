@@ -3,6 +3,7 @@ Created on 2016年1月3日
 
 @author: Darren
 '''
+from collections import deque
 
 '''
 You are given coins of different denominations and a total amount of money amount. Write a function to compute the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
@@ -69,13 +70,16 @@ so=Solution()
 print(so.coinChange([1,2,3,4,5,6,7,8,9,11,23,45,65,413,213,453,20,150,321,254,396,487,234], 5629))
 print(so.coinChange2([1,2,3,4,5,6,7,8,9,11,23,45,65,413,213,453,20,150,321,254,396,487,234], 5629))
 
-def mytest1():
-    so.coinChange([1,2,3,4,5,6,7,8,9,11,23,45,65,413,213,453,20,150,321,254,396,487,234,543,654], 56292)
-def mytest2():
-    so.coinChange2([1,2,3,4,5,6,7,8,9,11,23,45,65,413,213,453,20,150,321,254,396,487,234,543,654], 56292)
+# def mytest1():
+#     so.coinChange([1,2,3,4,5,6,7,8,9,11,23,45,65,413,213,453,20,150,321,254,396,487,234,543,654], 56292)
+# def mytest2():
+#     so.coinChange2([1,2,3,4,5,6,7,8,9,11,23,45,65,413,213,453,20,150,321,254,396,487,234,543,654], 56292)
+# 
+# t1=Timer('mytest1()', 'from __main__ import mytest1')
+# t2=Timer('mytest2()', 'from __main__ import mytest2')
+# 
+# print(t1.timeit(10))
+# print(t2.timeit(10))
 
-t1=Timer('mytest1()', 'from __main__ import mytest1')
-t2=Timer('mytest2()', 'from __main__ import mytest2')
-
-print(t1.timeit(10))
-print(t2.timeit(10))
+q=set()
+q.add((2,3))
