@@ -13,9 +13,12 @@ class Solution(object):
 
 
 class TestSolution(unittest.TestCase):
-    def test_none_0(self):
+    def setUp(self):
+        unittest.TestCase.setUp(self)
+        self.testClass=Solution()
+    def test_none_0(self): #test function name should start with test
         num=213
-        self.assertEqual(num*2, Solution.doubleNum(self,num),"?")
+        self.assertEqual(num*2, self.testClass.doubleNum(num),"Fail")
 
 
 if __name__ == "__main__":
