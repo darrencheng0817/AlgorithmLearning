@@ -19,7 +19,7 @@ def alineDictionary(words):
     for wordsIndex in range(len(words)):
         for char in words[wordsIndex]:
             if char not in graph:
-                graph[char] = []
+                graph[char] = set()
             if char not in inDegree:
                 inDegree[char] = 0
         if wordsIndex > 0:
@@ -27,9 +27,9 @@ def alineDictionary(words):
             while charIndex < len(words[wordsIndex]) and charIndex < len(words[wordsIndex - 1]) and words[wordsIndex][charIndex] == words[wordsIndex - 1][charIndex]:
                 charIndex += 1
             if charIndex < len(words[wordsIndex]) and charIndex < len(words[wordsIndex - 1]) and words[wordsIndex][charIndex] != words[wordsIndex - 1][charIndex]:
-                graph[words[wordsIndex - 1][charIndex]].append(words[wordsIndex][charIndex])
+                graph[words[wordsIndex - 1][charIndex]].add(words[wordsIndex][charIndex])
                 inDegree[words[wordsIndex][charIndex]] += 1
-    
+    print(graph)
     queue = []
     visited = set()
     for key, value in inDegree.items():
@@ -48,6 +48,8 @@ def alineDictionary(words):
     
     return res if len(visited) == len(inDegree) else ""
  
-words = ["wrt", "wrf", "er", "ett", "rftt"]       
+words = ["wrt", "wrf", "er", "ett", "rftt"]  
+words=["za","zb","ca","cb"]     
 print(alineDictionary(words)) 
+
 
