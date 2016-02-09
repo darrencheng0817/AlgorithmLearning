@@ -70,3 +70,29 @@ wwwbbrwrbrbrrbrbrwrwwrbwrwrrb|wwwbbrwrbrbrrbrbrwrwwrbwrwrrb
 
                         5+6 = 11 total
 '''
+def get_max_beads(beads):
+    l=len(beads)
+    beads+=beads
+    index=0
+    res,pre,cur=0,0,0
+    color=""
+    w_count=0
+    while index<len(beads) and res<l:
+        if beads[index]=="w":
+            cur+=1
+            w_count+=1
+        elif beads[index]==color:
+            w_count=0
+            cur+=1
+        else:
+            color=beads[index]
+            res=max(res,pre+cur)
+            pre=cur-w_count
+            cur=w_count+1
+            w_count=0
+        index+=1
+    print(res)
+    
+beads="wwwbbrwrbrbrrbrbrwrwwrbwrwrrb"
+get_max_beads(beads)       
+    
