@@ -9,7 +9,13 @@ class CommandError(Exception):
     def __init__(self, message):
         self.message = message
     def __str__(self):
-        return repr("Erron command: "+self.message)
+        return repr("Error command: "+self.message)
+
+class ENDCommand(Exception):
+    def __init__(self):
+        self.message = "Reached the end of command."
+    def __str__(self):
+        return repr(self.message)
 
 class SimpleDatabase(object):
     def __init__(self):
@@ -21,7 +27,14 @@ class SimpleDatabase(object):
         self.__count={}
         self.__data_diffs=[{}]
         self.__count_diffs=[{}]
+        self.print_flag=True
     
+    def clear_data(self):
+        self.__data={}
+        self.__count={}
+        self.__data_diffs=[{}]
+        self.__count_diffs=[{}]
+        
     def __process_begin(self,*arguments):
         self.__data_diffs.append({})
         self.__count_diffs.append({})
@@ -30,8 +43,7 @@ class SimpleDatabase(object):
         if len(arguments)!=0:
             raise CommandError("Error arguments!")
         if not self.__data_diffs or not self.__data_diffs[-1]:
-            print("NO TRANSACTION")
-            return
+            return "NO TRANSACTION"
         else:
             data_diff=self.__data_diffs[-1]
             count_diff=self.__count_diffs[-1]
@@ -48,12 +60,17 @@ class SimpleDatabase(object):
             self.__count_diffs.pop()
             self.__data_diffs.pop()
     
+    def __commit_check(self):
+        for d in self.__data_diffs:
+            if d:
+                return True
+        return False
+    
     def __process_commit(self,*arguments):
         if len(arguments)!=0:
             raise CommandError("Error arguments!")
-        if not self.__data_diffs or not self.__data_diffs[-1]:
-            print("NO TRANSACTION")
-            return
+        if not self.__commit_check():
+            return "NO TRANSACTION"
         self.__data_diffs=[{}]
         self.__count_diffs=[{}]
     
@@ -93,9 +110,9 @@ class SimpleDatabase(object):
             raise CommandError("Error arguments!")
         key=arguments[0]
         if key not in self.__data:
-            print("NULL")
+            return "NULL"
         else:
-            print(self.__data[key])
+            return self.__data[key]
     
     def __process_unset(self,*arguments):
         if len(arguments)!=1:
@@ -107,6 +124,8 @@ class SimpleDatabase(object):
             value=self.__data[key]
             if key not in data_diff:
                 data_diff[key]=value
+            elif not data_diff[key]:
+                data_diff.pop(key)
             if value not in count_diff:
                 count_diff[value]=self.__count[value]
             self.__data.pop(key)
@@ -121,55 +140,72 @@ class SimpleDatabase(object):
             raise CommandError("Error arguments!")
         key=arguments[0]
         if key not in self.__count:
-            print("NULL")
+            return "0"
         else:
-            print(self.__count[key]) 
+            return self.__count[key]
     
     def __process_end(self,*arguments):
         if len(arguments)!=0:
             raise CommandError("Error arguments!")
         else:
-            exit()
+            raise ENDCommand()
         
     def __process_command(self,command):    
         command_list=command.strip().split(" ")
         if command_list[0] not in self.__commands:
             raise CommandError("Command not supported!")
         else:
-            self.__commands[command_list[0]](*command_list[1:])
+            return self.__commands[command_list[0]](*command_list[1:])
     
     def run_from_command(self):
         while True:
             command=input().strip()
             try:
-                self.__process_command(command)
+                result=self.__process_command(command)
+                if result:
+                    print(result)
             except CommandError as e:
                 print(e)
+            except ENDCommand as e:
+                break
                 
     def run_from_file(self,file_name):
+        results=[] #for test and other purpose
         try:
-            file=open(file_name,"r")
-            while True:
-                try:
-                    command=file.readline().strip()
-                    self.__process_command(command)
-                except CommandError as e:
-                    print(e)
-                except EOFError:
-                    break
+            with open(file_name,"r") as file:
+                while True:
+                    try:
+                        command=file.readline().strip()
+                        result=self.__process_command(command)
+                        if result:
+                            if self.print_flag:
+                                print(result)
+                            results.append(str(result))
+                    except CommandError as e:
+                        print(e)
+                    except ENDCommand as e:
+                        file.close()
+                        break
+                    except EOFError:
+                        file.close()
+                        break
         except FileNotFoundError as e:
             print("No such file: "+file_name)
         except PermissionError as e:
             print("Permission denied: "+file_name)
-        finally:
-            file.close()
-                
+        return results       
+     
 if __name__ == '__main__':
     simpleDatabase=SimpleDatabase()
-    simpleDatabase.run_from_file("DBCommand.txt")
+#     simpleDatabase.run_from_file("DBCommand.txt")
+     
     if len(sys.argv)==1:
         simpleDatabase.run_from_command()
     elif len(sys.argv)==2:
         simpleDatabase.run_from_file(sys.argv[1])
     else:
-        print("Too many arguments")
+        print('''Too many arguments
+        Usage:
+            python3 SimpleDatabase.py : for command line mode
+            python3 SimpleDatabase.py file_name : load commands from file
+        ''')
