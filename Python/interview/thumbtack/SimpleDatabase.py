@@ -16,7 +16,8 @@ class ENDCommand(Exception):
         self.message = "Reached the end of command."
     def __str__(self):
         return repr(self.message)
-
+NOTRANSACTION_STRING="NO TRANSACTION"
+NULLRESULT_STRING="NULL"
 class SimpleDatabase(object):
     def __init__(self):
         self.__commands={"BEGIN": (self.__process_begin,0),
@@ -46,7 +47,12 @@ class SimpleDatabase(object):
         
     def __process_rollback(self,*arguments):
         if not self.__data_diffs or not self.__data_diffs[-1]:
-            return "NO TRANSACTION"
+            self.__count_diffs.pop()
+            self.__data_diffs.pop()
+            if not self.__count_diffs or not self.__data_diffs:
+                self.__count_diffs=[{}]
+                self.__data_diffs=[{}]
+            return NOTRANSACTION_STRING
         else:
             data_diff=self.__data_diffs[-1]
             count_diff=self.__count_diffs[-1]
@@ -74,7 +80,9 @@ class SimpleDatabase(object):
     
     def __process_commit(self,*arguments):
         if not self.__commit_check():
-            return "NO TRANSACTION"
+            self.__data_diffs=[{}]
+            self.__count_diffs=[{}]
+            return NOTRANSACTION_STRING
         self.__data_diffs=[{}]
         self.__count_diffs=[{}]
     
@@ -111,7 +119,7 @@ class SimpleDatabase(object):
     def __process_get(self,*arguments):
         key=arguments[0]
         if key not in self.__data:
-            return "NULL"
+            return NULLRESULT_STRING
         else:
             return self.__data[key]
     
@@ -200,16 +208,13 @@ class SimpleDatabase(object):
      
 if __name__ == '__main__':
     simpleDatabase=SimpleDatabase()
-#     simpleDatabase.print_flag=False
-#     simpleDatabase.run_from_file("DBCommand.txt")
-    simpleDatabase.run_from_file("DBCommand.txt")
-#     if len(sys.argv)==1:
-#         simpleDatabase.run_from_command()
-#     elif len(sys.argv)==2:
-#         simpleDatabase.run_from_file(sys.argv[1])
-#     else:
-#         print('''Too many arguments
-#         Usage:
-#             python3 SimpleDatabase.py : for command line mode
-#             python3 SimpleDatabase.py file_name : load commands from file
-#         ''')
+    if len(sys.argv)==1:
+        simpleDatabase.run_from_command()
+    elif len(sys.argv)==2:
+        simpleDatabase.run_from_file(sys.argv[1])
+    else:
+        print('''Too many arguments
+        Usage:
+            python3 SimpleDatabase.py : for command line mode
+            python3 SimpleDatabase.py file_name : load commands from file
+        ''')
