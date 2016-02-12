@@ -19,10 +19,15 @@ class ENDCommand(Exception):
 
 class SimpleDatabase(object):
     def __init__(self):
-        self.__commands={"BEGIN":self.__process_begin,"END":self.__process_end,\
-                       "ROLLBACK":self.__process_rollback,"COMMIT":self.__process_commit,\
-                       "SET":self.__process_set,"UNSET":self.__process_unset,"GET":self.__process_get,\
-                       "NUMEQUALTO":self.__process_numequalto}
+        self.__commands={"BEGIN": (self.__process_begin,0),
+                         "END":(self.__process_end,0),
+                         "ROLLBACK":(self.__process_rollback,0),
+                         "COMMIT":(self.__process_commit,0),
+                         "SET":(self.__process_set,2),
+                         "UNSET":(self.__process_unset,1),
+                         "GET":(self.__process_get,1),
+                         "NUMEQUALTO":(self.__process_numequalto,1)
+                         }
         self.__data={}
         self.__count={}
         self.__data_diffs=[{}]
@@ -40,26 +45,27 @@ class SimpleDatabase(object):
         self.__count_diffs.append({})
         
     def __process_rollback(self,*arguments):
-        if len(arguments)!=0:
-            raise CommandError("Error arguments!")
         if not self.__data_diffs or not self.__data_diffs[-1]:
             return "NO TRANSACTION"
         else:
             data_diff=self.__data_diffs[-1]
             count_diff=self.__count_diffs[-1]
             for key in data_diff:
-                if not data_diff[key]:
+                if data_diff[key]==None:
                     self.__data.pop(key)
                 else:
                     self.__data[key]=data_diff[key]
             for key in count_diff:
-                if not count_diff[key]:
+                if count_diff[key]==None:
                     self.__count.pop(key)
                 else:
                     self.__count[key]=count_diff[key]
             self.__count_diffs.pop()
             self.__data_diffs.pop()
-    
+            if not self.__count_diffs or not self.__data_diffs:
+                self.__count_diffs=[{}]
+                self.__data_diffs=[{}]
+                
     def __commit_check(self):
         for d in self.__data_diffs:
             if d:
@@ -67,22 +73,19 @@ class SimpleDatabase(object):
         return False
     
     def __process_commit(self,*arguments):
-        if len(arguments)!=0:
-            raise CommandError("Error arguments!")
         if not self.__commit_check():
             return "NO TRANSACTION"
         self.__data_diffs=[{}]
         self.__count_diffs=[{}]
     
     def __process_set(self,*arguments):
-        if len(arguments)!=2:
-            raise CommandError("Error arguments!")
         key,value=arguments
         data_diff=self.__data_diffs[-1]
         count_diff=self.__count_diffs[-1]
         if key not in self.__data:
             #new data added
-            data_diff[key]=None
+            if key not in data_diff:
+                data_diff[key]=None
         else:
             #change a existed data
             if key not in data_diff:
@@ -93,21 +96,19 @@ class SimpleDatabase(object):
             self.__count[origin_value]-=1
             if self.__count[origin_value]==0:
                 self.__count.pop(origin_value)
-                if not count_diff[origin_value]:
+                if count_diff[origin_value]==None:
                     count_diff.pop(origin_value)
         if value not in self.__count:
             self.__count[value]=0
-            count_diff[value]=None
+            if value not in count_diff:
+                count_diff[value]=None
         else:
             if value not in count_diff:
                 count_diff[value]=self.__count[value]
         self.__count[value]+=1
-        
         self.__data[key]=value
         
     def __process_get(self,*arguments):
-        if len(arguments)!=1:
-            raise CommandError("Error arguments!")
         key=arguments[0]
         if key not in self.__data:
             return "NULL"
@@ -115,8 +116,6 @@ class SimpleDatabase(object):
             return self.__data[key]
     
     def __process_unset(self,*arguments):
-        if len(arguments)!=1:
-            raise CommandError("Error arguments!")
         key=arguments[0]
         if key in self.__data:
             data_diff=self.__data_diffs[-1]
@@ -124,7 +123,7 @@ class SimpleDatabase(object):
             value=self.__data[key]
             if key not in data_diff:
                 data_diff[key]=value
-            elif not data_diff[key]:
+            elif data_diff[key]==None:
                 data_diff.pop(key)
             if value not in count_diff:
                 count_diff[value]=self.__count[value]
@@ -132,36 +131,40 @@ class SimpleDatabase(object):
             self.__count[value]-=1
             if self.__count[value]==0:
                 self.__count.pop(value)
-                if not count_diff[value]:
+                if count_diff[value]==None:
                     count_diff.pop(value)
     
     def __process_numequalto(self,*arguments):
-        if len(arguments)!=1:
-            raise CommandError("Error arguments!")
         key=arguments[0]
         if key not in self.__count:
             return "0"
         else:
-            return self.__count[key]
+            return str(self.__count[key])
     
     def __process_end(self,*arguments):
-        if len(arguments)!=0:
-            raise CommandError("Error arguments!")
-        else:
-            raise ENDCommand()
+        raise ENDCommand()
         
-    def __process_command(self,command):    
+    def process_command(self,command):    
         command_list=command.strip().split(" ")
-        if command_list[0] not in self.__commands:
+        command_key=command_list[0]
+        arguments=command_list[1:]
+        if command_key not in self.__commands:
             raise CommandError("Command not supported!")
         else:
-            return self.__commands[command_list[0]](*command_list[1:])
-    
+            func,arguments_num=self.__commands[command_key]
+            if len(arguments)!=arguments_num:
+                raise CommandError("Error arguments!")
+            else: 
+                try:
+                    return func(*command_list[1:])
+                except KeyError as e:
+                    print("Sorry, some error happened!")
+                    
     def run_from_command(self):
         while True:
             command=input().strip()
             try:
-                result=self.__process_command(command)
+                result=self.process_command(command)
                 if result:
                     print(result)
             except CommandError as e:
@@ -176,7 +179,7 @@ class SimpleDatabase(object):
                 while True:
                     try:
                         command=file.readline().strip()
-                        result=self.__process_command(command)
+                        result=self.process_command(command)
                         if result:
                             if self.print_flag:
                                 print(result)
@@ -197,15 +200,16 @@ class SimpleDatabase(object):
      
 if __name__ == '__main__':
     simpleDatabase=SimpleDatabase()
+#     simpleDatabase.print_flag=False
 #     simpleDatabase.run_from_file("DBCommand.txt")
-     
-    if len(sys.argv)==1:
-        simpleDatabase.run_from_command()
-    elif len(sys.argv)==2:
-        simpleDatabase.run_from_file(sys.argv[1])
-    else:
-        print('''Too many arguments
-        Usage:
-            python3 SimpleDatabase.py : for command line mode
-            python3 SimpleDatabase.py file_name : load commands from file
-        ''')
+    simpleDatabase.run_from_file("DBCommand.txt")
+#     if len(sys.argv)==1:
+#         simpleDatabase.run_from_command()
+#     elif len(sys.argv)==2:
+#         simpleDatabase.run_from_file(sys.argv[1])
+#     else:
+#         print('''Too many arguments
+#         Usage:
+#             python3 SimpleDatabase.py : for command line mode
+#             python3 SimpleDatabase.py file_name : load commands from file
+#         ''')
