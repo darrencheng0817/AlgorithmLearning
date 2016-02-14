@@ -42,7 +42,7 @@ class Test(unittest.TestCase):
 #     def test_robust(self):
 #         file_name="test3.in"
 #         for _ in range(10000):
-#             N=100
+#             N=20
 #             self.generator_test_case(N, file_name)
 #             self.testClass.run_from_file(file_name)
 #             self.testClass.clear_data()
