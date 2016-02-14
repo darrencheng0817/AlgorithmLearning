@@ -1,6 +1,17 @@
 '''
 Created on 2016年2月10日
-
+A simple in-memory Database, following command are supported
+    SET name value – Set the variable name to the value value. Neither variable names nor values will contain spaces.
+    GET name – Print out the value of the variable name, or NULL if that variable is not set.
+    UNSET name – Unset the variable name, making it just like that variable was never set.
+    NUMEQUALTO value – Print out the number of variables that are currently set to value. If no variables equal that value, print 0.
+    END – Exit the program. The program will always receive this as its last command.
+    BEGIN – Open a new transaction block. Transaction blocks can be nested; a BEGIN can be issued inside of an existing block.
+    ROLLBACK – Undo all of the commands issued in the most recent transaction block, and close the block. Print nothing if successful, or print NO TRANSACTION if no transaction is in progress.
+    COMMIT – Close all open transaction blocks, permanently applying the changes made in them. Print nothing if successful, or print NO TRANSACTION if no transaction is in progress.
+Performance:
+    All commands besides ROLLBACK run in O(1) time
+    
 @author: Darren
 '''
 import sys
@@ -16,8 +27,10 @@ class ENDCommand(Exception):
         self.message = "Reached the end of command."
     def __str__(self):
         return repr(self.message)
+    
 NOTRANSACTION_STRING="NO TRANSACTION"
 NULLRESULT_STRING="NULL"
+
 class SimpleDatabase(object):
     def __init__(self):
         self.__commands={"BEGIN": (self.__process_begin,0),
@@ -165,8 +178,9 @@ class SimpleDatabase(object):
             else: 
                 try:
                     return func(*command_list[1:])
-                except KeyError as e:
+                except KeyError:
                     print("Sorry, some error happened!")
+                    exit()
                     
     def run_from_command(self):
         while True:

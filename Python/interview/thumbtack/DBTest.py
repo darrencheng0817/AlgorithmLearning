@@ -15,10 +15,8 @@ class Test(unittest.TestCase):
         self.testClass=SimpleDatabase()
         self.testClass.print_flag=False
         
-    def test_invalid_input(self):
-        pass
-    
     def test_robust(self):
+        '''the program should not crash for any valid inputs'''
         for _ in range(100):
             N=10000
             commands_d={"BEGIN":0,"END":0,"ROLLBACK":0,"COMMIT":0,"SET":2,"UNSET":1,"GET":1,"NUMEQUALTO":1}
