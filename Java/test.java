@@ -1,5 +1,7 @@
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class test {
@@ -10,7 +12,7 @@ public class test {
 		printBrinary(5&6&7);
 		System.out.println(countBits(8844000));
 		System.out.println(isPowerOfTwo(-4));
-		
+		List<String> testList=new LinkedList<String>();
 		System.out.println(isPow4((int)Math.pow(4, 5)));
 		System.out.println(myABS(-4245));
 		HashMap<Integer, Integer> map=new HashMap<Integer, Integer>();

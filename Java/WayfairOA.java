@@ -4,7 +4,7 @@ import java.util.*;
 
 import org.junit.Test;
 
-public class test1 {
+public class WayfairOA {
 
 	public static void main(String[] args) {
 	    List<List<String>> wordsList = new ArrayList<List<String>>();

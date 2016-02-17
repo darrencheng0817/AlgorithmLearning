@@ -37,3 +37,48 @@ The above binary tree is serialized as "{1,2,3,#,#,4,#,#,5}".
 
 " 
 '''
+class Solution(object):
+    def isValidBST(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        def util(root,min_value,max_value):
+            if not root:
+                return True
+            if not min_value<root.val<max_value:
+                return False
+            return util(root.left,min_value,root.val) and util(root.right,root.val,max_value)
+        return util(root,float('-inf'),float('inf'))
+    
+    def isValidBST2(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        def util(root):
+            if not root:
+                return True,float('inf'),float('-inf')
+            flag1,min1,max1=util(root.left)
+            flag2,min2,max2=util(root.right)
+            if flag1 and flag2 and max1<root.val<min2:
+                return True,min(root.val,min1),max(root.val,max2)
+            return False,min(root.val,min1),max(root.val,max2)
+        return util(root)[0]
+    
+    def isValidBST3(self, root):
+        """
+        :type root: TreeNode
+        :rtype: bool
+        """
+        pre=[None]
+        def util(root):
+            if not root:
+                return True
+            left=util(root.left)
+            if pre[0]!=None and root.val<=pre[0].val:
+                return False
+            pre[0]=root
+            return left and util(root.right)
+            
+        return util(root)
