@@ -61,5 +61,26 @@ SAMPLE OUTPUT (file crypt1.out)
 1
 '''
 
+def check(d,num):
+    for char in str(num):
+        if char not in d:
+            return False
+    return True
+
 def cryp1(nums):
-    pass
+    d=set(map(str,nums))
+    res=0
+    for num1 in range(100,1000):
+        if check(d,num1):
+            for num2 in range(10,100):
+                if check(d,num2):
+                    if num1*num2<10000:
+                        if check(d,num1*num2) and check(d,num1*(num2//10)) and check(d,num1*(num2%10)):
+                            res+=1
+                    else:
+                        break
+    return res               
+                    
+                    
+nums=[2,3,4,6,8]
+print(cryp1(nums))
