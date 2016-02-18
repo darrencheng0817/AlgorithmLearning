@@ -21,3 +21,15 @@ A = [2,3,1,1,4], return true.
 A = [3,2,1,0,4], return false.
 " 
 '''
+class Solution(object):
+    def canJump(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: bool
+        """
+        reachable=0
+        i=0
+        while reachable>=i and i<len(nums):
+            reachable=max(reachable,i+nums[i])
+            i+=1
+        return i==len(nums)
