@@ -103,5 +103,6 @@ def combo():
         for item in (temp1+temp2):
             res.add(",".join(list(map(str,item))))
         print(len(res))
+        
 combo()
 '''这道题的规模是N<=100，直接枚举所有可能出现的号码组合即可，时间复杂度为O(n^3)'''

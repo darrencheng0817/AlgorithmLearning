@@ -24,6 +24,7 @@ public class test {
         int[] nums={1,2,3,4,5};
         System.out.println(canWinNim(41));
         System.out.println(count);
+
 	}
 	
 	public static boolean canWinNim(int n) {
