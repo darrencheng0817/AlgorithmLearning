@@ -19,3 +19,24 @@ There is a more generic way of solving this problem.
 
 " 
 '''
+class Solution(object):
+    def isPalindrome(self, x):
+        """
+        :type x: int
+        :rtype: bool
+        """
+        if x<0:
+            return False
+        head=1
+        while head*10<=x:
+            head*=10
+        while x>0:
+            if x//head!=x%10:
+                return False
+            x%=head
+            head//=100
+            x//=10
+        return True
+        
+so=Solution()
+print(so.isPalindrome(1235321))

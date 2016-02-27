@@ -28,3 +28,21 @@ Test cases had been added to test the overflow behavior.
 
 " 
 '''
+class Solution(object):
+    def reverse(self, x):
+        """
+        :type x: int
+        :rtype: int
+        """
+        flag=1
+        if x<0:
+            flag=-1
+            x=-x
+        res=0
+        while x>0:
+            res=res*10+x%10
+            x/=10
+        res*=flag
+        if not -(2**31)<res<2**31:
+            return 0
+        return res

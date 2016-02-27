@@ -22,3 +22,27 @@ Note: The sequence of integers will be represented as a string.
 
 " 
 '''
+class Solution(object):
+    def countAndSay(self, n):
+        """
+        :type n: int
+        :rtype: str
+        """
+        res="1"
+        for _ in range(n-1):
+            num,count=res[0],1
+            new_res=""
+            for index in range(1,len(res)):
+                if res[index]==num:
+                    count+=1
+                else:
+                    new_res+=(str(count)+num)
+                    num=res[index]
+                    count=1
+            new_res+=(str(count)+num)
+            res=new_res
+        return res
+            
+        
+so=Solution()
+print(so.countAndSay(6))

@@ -33,6 +33,31 @@ class Solution(object):
             index+=1
         res=max(res,localSum)
         return res
+
+    def lengthOfLongestSubstring2(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        if not s:
+            return 0
+        res,local_count=0,0
+        d={}
+        for index,char in enumerate(s):
+            if char not in d:
+                d[char]=index
+                local_count+=1
+            else:
+                res=max(res,local_count)
+                start_index=index-local_count
+                while s[start_index]!=char:
+                    d.pop(s[start_index])
+                    start_index+=1
+                local_count=index-start_index
+                d[char]=index
+        res=max(res,local_count)
+        return res
 so=Solution()
 s="aabcvfgrgb"
 print(so.lengthOfLongestSubstring(s))
+print(so.lengthOfLongestSubstring2(s))
