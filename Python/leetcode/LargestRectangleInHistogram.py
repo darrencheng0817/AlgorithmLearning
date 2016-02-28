@@ -23,3 +23,33 @@ Given height = [2,1,5,6,2,3],
 return 10.
 " 
 '''
+class Solution(object):
+    def largestRectangleArea(self, heights):
+        """
+        :type heights: List[int]
+        :rtype: int
+        """
+        if not heights:
+            return 0
+        stack=[]
+        res=0
+        for cur_index,height in enumerate(heights):
+            while stack and height<heights[stack[-1]]:
+                index=stack.pop()
+                local_res=0
+                if stack:
+                    local_res=heights[index]*(cur_index-stack[-1]-1)
+                else:
+                    local_res=heights[index]*(cur_index)
+                res=max(res,local_res)
+            stack.append(cur_index)
+        while stack:
+            index=stack.pop()
+            local_res=0
+            if stack:
+                local_res=heights[index]*(len(heights)-stack[-1]-1)
+            else:
+                local_res=heights[index]*len(heights)
+            res=max(res,local_res)
+        return res
+            

@@ -22,3 +22,22 @@ If n = 4 and k = 2, a solution is:
 ]
 " 
 '''
+class Solution(object):
+    def combine(self, n, k):
+        """
+        :type n: int
+        :type k: int
+        :rtype: List[List[int]]
+        """
+        res=[]
+        def util(item,index):
+            if len(item)==k:
+                res.append(item)
+                return
+            if index>n:
+                return
+            for num in range(index+1,n+1):
+                util(item+[num],num)
+        util([],0)
+        return res
+        

@@ -12,21 +12,30 @@ Given 1->2->3->3->4->4->5, return 1->2->5.
 Given 1->1->1->2->3, return 2->3.
 " 
 '''
+# Definition for singly-linked list.
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
 class Solution(object):
-    def removeDuplicates(self, nums):
+    def deleteDuplicates(self, head):
         """
-        :type nums: List[int]
-        :rtype: int
+        :type head: ListNode
+        :rtype: ListNode
         """
-        if not nums or len(nums)<3:
-            return nums
-        validIndex=2
-        for index in range(2,len(nums)):
-            if nums[index]==nums[validIndex-1] and nums[index]==nums[validIndex-2]:
-                continue
-            nums[validIndex]=nums[index]
-            validIndex+=1
-        return validIndex
-so=Solution()
-nums=[]
-print(so.removeDuplicates(nums))
+        if not head:
+            return head
+        res=ListNode(head.val-1)
+        res.next=head
+        valid_start=res
+        pointer=head
+        while pointer:
+            if pointer.next and pointer.val==pointer.next.val:
+                while pointer.next and pointer.val==pointer.next.val:
+                    pointer=pointer.next
+                valid_start.next=pointer.next
+            else:
+                valid_start=valid_start.next
+            pointer=pointer.next
+        return res.next

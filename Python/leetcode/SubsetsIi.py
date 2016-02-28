@@ -28,3 +28,25 @@ If nums = [1,2,2], a solution is:
 ]
 " 
 '''
+class Solution(object):
+    def subsetsWithDup(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        res=[[]]
+        if not nums:
+            return res
+        nums=sorted(nums)
+        pre=[]
+        for index,num in enumerate(nums):
+            if index>0 and num==nums[index-1]:
+                seeds=pre
+            else:
+                seeds=res
+            new_items=[]
+            for item in seeds:
+                new_items.append(item+[num])
+            res+=new_items
+            pre=new_items
+        return res

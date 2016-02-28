@@ -22,3 +22,23 @@ For example, [0,2,3,1] is also a valid gray code sequence according to the above
 
 For now, the judge is able to judge based on one instance of gray code sequence. Sorry about that." 
 '''
+class Solution(object):
+    def grayCode(self, n):
+        """
+        :type n: int
+        :rtype: List[int]
+        """
+        if n==0:
+            return [0]
+        grays=["0","1"]
+        for _ in range(1,n):
+            first_part=["0"+item for item in grays]
+            second_part=["1"+item for item in reversed(grays)]
+            grays=first_part+second_part
+        res=[]
+        for item in grays:
+            res.append(int(item,2))
+        return res
+        
+so=Solution()
+print(so.grayCode(0))

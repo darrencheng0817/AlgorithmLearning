@@ -14,3 +14,32 @@ Given 1->4->3->2->5->2 and x = 3,
 return 1->2->2->4->3->5.
 " 
 '''
+# Definition for singly-linked list.
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+class Solution(object):
+    def partition(self, head, x):
+        """
+        :type head: ListNode
+        :type x: int
+        :rtype: ListNode
+        """
+        if not head:
+            return
+        res1,res2=ListNode(0),ListNode(0)
+        pointer1,pointer2=res1,res2
+        pointer=head
+        while pointer:
+            if pointer.val<x:
+                pointer1.next=pointer
+                pointer1=pointer1.next
+            else:
+                pointer2.next=pointer
+                pointer2=pointer2.next
+            pointer=pointer.next
+        pointer2.next=None
+        pointer1.next=res2.next
+        return res1.next

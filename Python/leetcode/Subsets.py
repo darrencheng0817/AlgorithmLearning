@@ -30,3 +30,19 @@ If nums = [1,2,3], a solution is:
 ]
 " 
 '''
+class Solution(object):
+    def subsets(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[List[int]]
+        """
+        res=[[]]
+        if not nums:
+            return res
+        nums=sorted(nums)
+        for num in nums:
+            new_items=[]
+            for item in res:
+                new_items.append(item+[num])
+            res+=new_items
+        return res

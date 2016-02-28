@@ -18,3 +18,21 @@ More practice:
 If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, which is more subtle.
 " 
 '''
+class Solution(object):
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if max(nums)<0:
+            return max(nums)
+        local_sum,global_sum=0,0
+        for num in nums:
+            local_sum+=num
+            if local_sum<0:
+                local_sum=0
+            global_sum=max(global_sum,local_sum)
+        return global_sum
+so=Solution()
+nums=[-2,1,-3,4,-1,2,1,-5,4]
+print(so.maxSubArray(nums))
