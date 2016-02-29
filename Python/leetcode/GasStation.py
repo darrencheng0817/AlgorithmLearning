@@ -20,3 +20,22 @@ Note:
 The solution is guaranteed to be unique.
 " 
 '''
+class Solution(object):
+    def canCompleteCircuit(self, gas, cost):
+        """
+        :type gas: List[int]
+        :type cost: List[int]
+        :rtype: int
+        """
+        if not gas or not cost or len(gas)!=len(cost):
+            return -1
+        pointer,total=0,0
+        local_sum=0
+        for index in range(len(gas)):
+            total+=gas[index]-cost[index]
+            local_sum+=gas[index]-cost[index]
+            if local_sum<0:
+                local_sum=0
+                pointer=index+1
+        return pointer if total>=0 else -1
+        

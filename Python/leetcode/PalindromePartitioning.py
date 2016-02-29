@@ -21,3 +21,21 @@ Return
 
 " 
 '''
+class Solution(object):
+    def partition(self, s):
+        """
+        :type s: str
+        :rtype: List[List[str]]
+        """
+        res=[]
+        def util(start,item):
+            if start==len(s):
+                res.append(item)
+                return
+            for index in range(start+1,len(s)+1):
+                if s[start:index]==s[start:index][::-1]:
+                    util(index,item+[s[start:index]])
+        util(0,[])
+        return res
+so=Solution()
+print(so.partition("aab"))

@@ -3,6 +3,7 @@ Created on 1.12.2016
 
 @author: Darren
 ''''''
+from leetcode.BinaryTreeMaximumPathSum import Solution
 
 Implement the following operations of a stack using queues.
 
@@ -34,3 +35,46 @@ The class name of the Java function had been updated to MyStack instead of Stack
 
 Credits:Special thanks to @jianchao.li.fighter for adding this problem and all test cases." 
 '''
+class Stack(object):
+    def __init__(self):
+        """
+        initialize your data structure here.
+        """
+        self.q1=[]
+        self.q2=[]
+        
+
+    def push(self, x):
+        """
+        :type x: int
+        :rtype: nothing
+        """
+        self.q1.append(x)
+
+    def pop(self):
+        """
+        :rtype: nothing
+        """
+        while self.q1:
+            self.q2.append(self.q1.pop(0))
+        self.q2.pop()
+        while self.q2:
+            self.q1.append(self.q2.pop(0))
+
+    def top(self):
+        """
+        :rtype: int
+        """
+        return self.q1[-1]
+
+    def empty(self):
+        """
+        :rtype: bool
+        """
+        return not bool(self.q1)
+
+so=Stack()
+so.push(1)
+so.push(2)
+so.pop()
+print(so.top())

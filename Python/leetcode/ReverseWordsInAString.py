@@ -34,3 +34,10 @@ Reduce them to a single space in the reversed string.
 
 " 
 '''
+class Solution(object):
+    def reverseWords(self, s):
+        """
+        :type s: str
+        :rtype: str
+        """
+        return " ".join(reversed([item for item in s.strip().split(" ") if item]))

@@ -23,3 +23,26 @@ The root-to-leaf path 1->3 represents the number 13.
 Return the sum = 12 + 13 = 25.
 " 
 '''
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def sumNumbers(self, root):
+        """
+        :type root: TreeNode
+        :rtype: int
+        """
+        res=[0]
+        def util(root,pre_sum):
+            if not root:
+                return
+            if not root.left and not root.right:
+                res[0]+=pre_sum*10+root.val
+            util(root.left,pre_sum*10+root.val)
+            util(root.right,pre_sum*10+root.val)
+        util(root,0)
+        return res[0]
