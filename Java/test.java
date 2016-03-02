@@ -24,9 +24,47 @@ public class test {
         int[] nums={1,2,3,4,5};
         System.out.println(canWinNim(41));
         System.out.println(count);
-
+        System.out.println(closestPalindrome(19999));
 	}
-	
+	public static long closestPalindrome(long x) {
+            String mirrorString = mirrorLeft(String.valueOf(x));
+            StringBuilder sb = new StringBuilder(String.valueOf(x));
+            int len = sb.length();
+            int idx = (len-1)/2;
+            if(Long.valueOf(mirrorString)>x) {                        
+                    while(idx>=0) {
+                            if(sb.charAt(idx)=='0') {
+                                    sb.setCharAt(idx, '9');
+                                    idx--;
+                            }
+                            else {
+                                    sb.setCharAt(idx, (char)(sb.charAt(idx)-1));
+                                    break;
+                            }
+                    }
+            }
+            else {
+                    while(idx>=0) {
+                            if(sb.charAt(idx)=='9') {
+                                    sb.setCharAt(idx, '0');
+                                    idx--;
+                            }
+                            else {
+                                    sb.setCharAt(idx, (char)(sb.charAt(idx)+1));
+                                    break;
+                            }
+                    }
+            }
+            String mirror = mirrorLeft(sb.toString());
+            return Math.abs(Long.valueOf(mirror)-x)< Math.abs(Long.valueOf(mirrorString)-x)?Long.valueOf(mirror): Long.valueOf(mirrorString);
+    }
+    private static String mirrorLeft(String x) {
+            StringBuilder sb = new StringBuilder(x);
+            for(int i = 0;i<x.length()/2;i++) {
+                    sb.setCharAt(x.length()-1-i, x.charAt(i));
+            }
+            return sb.toString();
+    }
 	public static boolean canWinNim(int n) {
 		count++;
         if(n<=3&&n>0)
