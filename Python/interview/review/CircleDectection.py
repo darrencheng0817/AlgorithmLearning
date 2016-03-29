@@ -34,9 +34,9 @@ def circle_dectector_dfs(edges):
         return True   
     for point in graph.keys():
         if not dfs(point):
-            return False
-          
+            return False      
     return True
+
 def build_graph(edges):
     graph={}
     in_degree={}
