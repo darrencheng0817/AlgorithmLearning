@@ -29,6 +29,7 @@ class Solution(object):
         # 0 means the word is not reversed, 1 means the word is reversed
         words= sorted([(w, 0, i, len(w)) for i, w in enumerate(words)] +
                                        [(w[::-1], 1, i, len(w)) for i, w in enumerate(words)])
+        print(words)
         length, result = len(words), []
         for i, (word1, rev1, ind1, len1) in enumerate(words):
             for j in range(i + 1, length):
@@ -41,11 +42,11 @@ class Solution(object):
                 else:
                     break
         return result
-
-            
             
             
 so=Solution()
 words = ["abcd", "dcba", "lls", "s", "sssll"]
 print(so.palindromePairs(words))
+[('abcd', 0, 0, 4), ('dcba', 0, 1, 4), ('lls', 0, 2, 3), ('s', 0, 3, 1), ('sssll', 0, 4, 5), ('dcba', 1, 0, 4), ('abcd', 1, 1, 4), ('sll', 1, 2, 3), ('s', 1, 3, 1), ('llsss', 1, 4, 5)]
+
             
