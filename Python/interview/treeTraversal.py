@@ -9,7 +9,7 @@ def inOrder(root):
     stack=[]
     while root or stack:
         if root:
-            stack.append(root.val)
+            stack.append(root)
             root=root.left
         else:
             root=stack.pop()
@@ -47,4 +47,18 @@ def postOrder(root):
                 res.append(peekNode.val)
                 preNode=peekNode
     return res            
-    
+def count_digits(num):
+    res=0
+    flag=False
+    if num<0:
+        num=-num
+        flag=True
+    while num>=10:
+        res+=num%10
+        num//=10
+    if flag:
+        res-=num
+    else:
+        res+=num
+    return res
+print(count_digits(-101))  
