@@ -47,6 +47,7 @@ def postOrder(root):
                 res.append(peekNode.val)
                 preNode=peekNode
     return res            
+
 def count_digits(num):
     res=0
     flag=False
@@ -62,3 +63,25 @@ def count_digits(num):
         res+=num
     return res
 print(count_digits(-101))  
+
+def preOrder2(root):
+    if not root:
+        return 
+    print(root.val)
+    preOrder(root.left)
+    preOrder(root.right)
+
+def inOrder2(root):
+    if not root:
+        return
+    inOrder(root.left)
+    print(root.val)
+    inOrder(root.right)
+    
+def postOrder2(root):
+    if not root:
+        return 
+    postOrder(root.left)
+    postOrder(root.right)
+    print(root.val)
+
