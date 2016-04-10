@@ -40,6 +40,7 @@ OUTPUT DETAILS:
 
 FJ keeps the hills of heights 4, 20, and 21 as they are. He adds mass to the hill of height 1, bringing it to height 4 (cost = 3^2 = 9). He shortens the hill of height 24 to height 21, also at a cost of 3^2 = 9. 
 '''
+import time
 def skidesign():
     file = open("skidesign.in","r")
     N=int(file.readline())
@@ -47,9 +48,21 @@ def skidesign():
     for _ in range(N):
         hills.append(int(file.readline()))
     min_hill=min(hills)
-    max_hill=min(hills)
-    costs=[]
-    
-def cal_cost(hills,target):
-    pass
-        
+    max_hill=max(hills)
+    res=float('inf')
+    for low in range(min_hill,max_hill-16):
+        res=min(res,cal_cost(hills, low, low+17))
+    return 0 if res==float('inf') else res
+
+def cal_cost(hills,low,high):
+    res=0
+    for hill in hills:
+        if hill<low:
+            res+=(low-hill)**2
+        if hill>high:
+            res+=(hill-high)**2
+    return res
+start=time.clock()
+print(skidesign())
+end=time.clock()
+print(end-start)

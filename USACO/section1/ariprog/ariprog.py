@@ -40,3 +40,30 @@ SAMPLE OUTPUT (file ariprog.out)
 5 20
 2 24
 '''
+import time
+def airgrog(N,M):
+    bisquares=set()
+    max_bis=0
+    for i in range(M+1):
+        for j in range(i,M+1):
+            bis=i*i+j*j
+            max_bis=max(max_bis,bis)
+            bisquares.add(bis)
+    res=[]
+    for b in range(1,max_bis//(N-1)+1):        
+        for a in range(max_bis-N):
+            if a+b*(N-1)>max_bis:
+                break
+            isOk=True
+            for i in range(N):
+                if a+i*b not in bisquares:
+                    isOk=False
+                    break
+            if isOk:
+                res.append((a,b))
+    return res
+        
+start=time.clock()
+print(airgrog(18, 100))
+end=time.clock()
+print(end-start)    

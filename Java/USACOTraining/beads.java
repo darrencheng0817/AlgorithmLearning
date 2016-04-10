@@ -1,7 +1,7 @@
 package USACOTraining;
 
 /*
- ID: darrenc
+ ID: darrenc3
  LANG: JAVA
  TASK: beads
  */
