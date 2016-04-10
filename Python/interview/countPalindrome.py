@@ -17,8 +17,39 @@ def  palindrome(string):
             j=i+length-1
             if dp[i+1][j-1] and string[i]==string[j]:
                 dp[i][j]=True
+    count=0
     for i in range(len(string)):
         for j in range(i,len(string)):
             if dp[i][j]:
+                count+=1
                 s.add(string[i:j+1])
+    print(count)
     return len(s)
+
+def  count_palindromes( S):
+    if not S:
+        return 0
+    res=0
+    for index in range(len(S)):
+        shift=0
+        while index-shift>=0 and index+shift<len(S):
+            if S[index-shift]==S[index+shift]:
+                res+=1
+            else:
+                break
+            shift+=1
+        shift=0
+        if index>0:
+            while index-shift-1>=0 and index+shift<len(S):
+                if S[index-shift-1]==S[index+shift]:
+                    res+=1
+                else:
+                    break
+                shift+=1
+    return res
+    
+
+string="aaaaaaaaaaaaaaaaadddddddddddddddddd"
+print(count_palindromes(string))
+print(palindrome(string))
+
