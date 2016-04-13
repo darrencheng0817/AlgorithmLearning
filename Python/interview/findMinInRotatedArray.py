@@ -41,7 +41,7 @@ def findMinIndexInRotatedArray(nums):
     if nums[r]<nums[res]:
         res=r
     return res   
-nums=[5,6,7,8,0,1,2,3,4]
+nums=[3,4,5,1,2]
 print(findMinInRotatedArray(nums))
 index=findMinIndexInRotatedArray(nums)
 print(index)
