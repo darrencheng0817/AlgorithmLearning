@@ -52,3 +52,5 @@ def fourSum(nums,target):
     return res       
 nums=[1,2,3,3,4]
 print(fourSum(nums, 10))
+a="adsagga"
+print(sorted(a))

@@ -7,7 +7,6 @@ from math import log
 import unittest
 
 class TFIDFCalculator(object):
-    
     def search(self,query,cropus):
         if not cropus:
             raise Exception("Empty cropus")
