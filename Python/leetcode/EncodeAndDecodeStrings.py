@@ -37,3 +37,6 @@ def encode(self, strs):
 
 def decode(self, s):
     return [t.replace('||', '|') for t in s.split(' | ')[:-1]]
+A=[]
+print(id(A))
+print(id(list(A)))
