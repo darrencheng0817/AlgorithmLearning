@@ -2,6 +2,17 @@
 Created on 1.12.2016
 
 @author: Darren
-''''''
-LeetCode Online Judge is a platform for preparing technical coding interviews and assessing your knowledge of data structures and algorithms. Pick from our expanding library of more than 160 interview questions to solve. Use our automated tool to get real time feedback on your solution." 
+'''
+'''
+An image is represented by a binary matrix with 0 as a white pixel and 1 as a black pixel. The black pixels are connected, i.e., there is only one black region. Pixels are connected horizontally and vertically. Given the location (x, y) of one of the black pixels, return the area of the smallest (axis-aligned) rectangle that encloses all black pixels.
+
+For example, given the following image:
+
+[
+  "0010",
+  "0110",
+  "0100"
+]
+and x = 0, y = 2,
+Return 6.
 '''

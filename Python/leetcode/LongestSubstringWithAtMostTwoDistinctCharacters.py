@@ -2,6 +2,11 @@
 Created on 1.12.2016
 
 @author: Darren
-''''''
-LeetCode Online Judge is a platform for preparing technical coding interviews and assessing your knowledge of data structures and algorithms. Pick from our expanding library of more than 160 interview questions to solve. Use our automated tool to get real time feedback on your solution." 
+'''
+'''
+Given a string, find the length of the longest substring T that contains at most 2 distinct characters.
+
+For example, Given s = “eceba”,
+
+T is "ece" which its length is 3
 '''

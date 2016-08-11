@@ -2,6 +2,20 @@
 Created on 1.12.2016
 
 @author: Darren
-''''''
-LeetCode Online Judge is a platform for preparing technical coding interviews and assessing your knowledge of data structures and algorithms. Pick from our expanding library of more than 160 interview questions to solve. Use our automated tool to get real time feedback on your solution." 
+'''
+'''
+Implement an iterator to flatten a 2d vector.
+
+For example,
+Given 2d vector =
+
+[
+  [1,2],
+  [3],
+  [4,5,6]
+]
+By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,2,3,4,5,6].
+
+Follow up:
+As an added challenge, try to code it using only iterators in C++ or iterators in Java
 '''

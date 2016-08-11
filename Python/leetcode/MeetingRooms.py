@@ -2,6 +2,11 @@
 Created on 1.12.2016
 
 @author: Darren
-''''''
-LeetCode Online Judge is a platform for preparing technical coding interviews and assessing your knowledge of data structures and algorithms. Pick from our expanding library of more than 160 interview questions to solve. Use our automated tool to get real time feedback on your solution." 
+'''
+'''
+Given an array of meeting time intervals consisting of start and end times [[s1,e1],[s2,e2],...] (si < ei), determine if a person could attend all meetings.
+
+For example,
+Given [[0, 30],[5, 10],[15, 20]],
+return false.
 '''

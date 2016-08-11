@@ -2,6 +2,15 @@
 Created on 1.12.2016
 
 @author: Darren
-''''''
-LeetCode Online Judge is a platform for preparing technical coding interviews and assessing your knowledge of data structures and algorithms. Pick from our expanding library of more than 160 interview questions to solve. Use our automated tool to get real time feedback on your solution." 
+'''
+'''
+
+Given a non-empty binary search tree and a target value, find k values in the BST that are closest to the target.
+
+Note:
+Given target value is a floating point.
+You may assume k is always valid, that is: k ≤ total nodes.
+You are guaranteed to have only one unique set of k values in the BST that are closest to the target.
+Follow up:
+Assume that the BST is balanced, could you solve it in less than O(n) runtime (where n = total nodes)?
 '''

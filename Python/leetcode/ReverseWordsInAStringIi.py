@@ -14,5 +14,4 @@ return "blue is sky the".
 
 Could you do it in-place without allocating extra space?
 
-Related problem: Rotate Array
 '''

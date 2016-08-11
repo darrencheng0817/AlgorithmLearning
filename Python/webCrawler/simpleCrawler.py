@@ -85,5 +85,5 @@ def crawler():
                 print("error in " +fileName)
             finally:
                 file_object.close()
-        time.sleep(10)
+        time.sleep(1)
 crawler()
